@@ -3,10 +3,10 @@ import { cn } from "@/lib/utils"
 
 
 
-export default function Home() {
+export default function RootPage() {
   return (
     <main>
-      <Button className={cn("", "")}>test</Button>
+      Welcome to the discord, please sign in or sign up
     </main>
   )
 }
