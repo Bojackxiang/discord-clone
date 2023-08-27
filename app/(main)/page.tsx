@@ -1,4 +1,4 @@
-import { ModeToggle } from "@/components/theme-toggle-btn"
+import { ThemeToggleButton } from "@/components/theme-toggle-btn"
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
 import { UserButton } from "@clerk/nextjs"
@@ -10,7 +10,7 @@ export default function RootPage() {
     <main>
       Welcome to the discord, please sign in or sign up
       <UserButton afterSignOutUrl="/"/>
-      <ModeToggle/>
+      <ThemeToggleButton/>
     </main>
   )
 }
