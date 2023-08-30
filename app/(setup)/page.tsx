@@ -1,3 +1,4 @@
+import InitialModal from "@/components/modals/InitialModal";
 import { db } from "@/lib/db";
 import { initProfile } from "@/lib/init-profile";
 import { UserButton } from "@clerk/nextjs";
@@ -24,7 +25,9 @@ const SetupPage = async () => {
     }
   }
 
-  return <div>Setup page<UserButton/></div>;
+  return <div>
+    <InitialModal/>
+  </div>;
 };
 
 export default SetupPage;
