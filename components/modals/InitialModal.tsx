@@ -13,7 +13,6 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-
 import {
   Form,
   FormControl,
@@ -22,10 +21,9 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-
 import { Input } from "@/components/ui/input";
-
 import { Button } from "@/components/ui/button";
+import FileUploader from "@/components/fileUploader/FileUploader";
 
 const formSchema = z.object({
   name: z.string().min(1, { message: "Server name is required" }),
@@ -74,7 +72,20 @@ const InitialModal: React.FC<InitialModalProps> = () => {
           <form className="space-y-8" onSubmit={form.handleSubmit(onSubmit)}>
             <div className="space-y-8 px-6">
               <div className="flex items-center justify-center text-center">
-                image upload
+                <FormField
+                  control={form.control}
+                  name="imageUrl"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormControl>
+                        <FileUploader endpoint="serverImage" 
+                        value={field.value} 
+                        onChange={field.onChange}/>
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
               </div>
               <FormField
                 control={form.control}
