@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -35,6 +35,12 @@ const formSchema = z.object({
 interface InitialModalProps {}
 
 const InitialModal: React.FC<InitialModalProps> = () => {
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -48,6 +54,10 @@ const InitialModal: React.FC<InitialModalProps> = () => {
   const onSubmit = (values: z.infer<typeof formSchema>) => {
     console.log(values);
   };
+
+  if (!isMounted) {
+    return null;
+  }
 
   return (
     <Dialog open>
@@ -64,7 +74,7 @@ const InitialModal: React.FC<InitialModalProps> = () => {
           <form className="space-y-8" onSubmit={form.handleSubmit(onSubmit)}>
             <div className="space-y-8 px-6">
               <div className="flex items-center justify-center text-center">
-                TODO: image upload
+                image upload
               </div>
               <FormField
                 control={form.control}
@@ -85,13 +95,15 @@ const InitialModal: React.FC<InitialModalProps> = () => {
                         {...field}
                       />
                     </FormControl>
-                    <FormMessage/>
+                    <FormMessage />
                   </FormItem>
                 )}
               />
             </div>
             <DialogFooter className="bg-gray-100 px-6 py-4">
-            <Button variant="primary" disabled={isLoading}>Create</Button>
+              <Button variant="primary" disabled={isLoading}>
+                Create
+              </Button>
             </DialogFooter>
           </form>
         </Form>
