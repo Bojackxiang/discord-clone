@@ -26,6 +26,8 @@ const SetupPage = async () => {
   }
 
   return <div>
+    hello
+    {/* <UserButton/> */}
     <InitialModal/>
   </div>;
 };
