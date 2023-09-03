@@ -1,16 +1,10 @@
-import { currentUser, redirectToSignIn } from "@clerk/nextjs";
+import { currentUser, RedirectToSignIn } from "@clerk/nextjs";
 import { db } from "@/lib/db";
+import { useRouter } from "next/navigation";
+import { User } from "@clerk/nextjs/server";
 
-export async function initProfile() {
 
-  // check auth
-  const user = await currentUser();
-  if (!user) {
-    return redirectToSignIn({
-      returnBackUrl: process.env.ROOT_URL,
-    });
-  }
-
+export async function initProfile(user: User) {
   // find profile
   const profile = await db.profile.findFirst({
     where: {
