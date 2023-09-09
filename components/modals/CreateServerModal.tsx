@@ -26,19 +26,18 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import FileUploader from "@/components/fileUploader/FileUploader";
 import { useRouter } from "next/navigation";
+import { useModal } from "@/hooks/use-modal";
 
 const formSchema = z.object({
   name: z.string().min(1, { message: "Server name is required" }),
   imageUrl: z.string().min(1, { message: "Image is required" }),
 });
 
-interface InitialModalProps {}
+interface CreateServerModalProps {}
 
-const InitialModal: React.FC<InitialModalProps> = () => {
-  const [isMounted, setIsMounted] = useState(false);
+const CreateServerModal: React.FC<CreateServerModalProps> = () => {
   const router = useRouter();
-
- 
+  const {isOpen, onOpen, onClose, type} = useModal()
 
   const form = useForm({
     resolver: zodResolver(formSchema),
@@ -47,6 +46,8 @@ const InitialModal: React.FC<InitialModalProps> = () => {
       imageUrl: "",
     },
   });
+
+  const modalOpen = isOpen === true && type === 'CREATE_SERVER';
 
   const isLoading = form.formState.isSubmitting;
 
@@ -57,21 +58,17 @@ const InitialModal: React.FC<InitialModalProps> = () => {
       router.refresh();
       window.location.reload();
     } catch (error: any) {
-      throw new Error("InitialModal :: ", error.message)
+      throw new Error("CreateServerModal :: ", error.message)
     }
   };
 
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
-
-  if (!isMounted) {
-    return null;
+  const onHandleClose = () => {
+    form.reset();
+    onClose();
   }
 
-  
   return (
-    <Dialog open>
+    <Dialog open={modalOpen} onOpenChange={onHandleClose}>
       <DialogContent className="bg-white text-black p-0 overflow-hidden">
         <DialogHeader className="pt-8 px-6">
           <DialogTitle className="text-2xl text-center font-bold">
@@ -136,4 +133,4 @@ const InitialModal: React.FC<InitialModalProps> = () => {
   );
 };
 
-export default InitialModal;
+export default CreateServerModal;

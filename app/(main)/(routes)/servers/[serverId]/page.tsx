@@ -6,7 +6,6 @@ interface ServerProps {}
 
 const Server = ({}: ServerProps) => {
   const {params} = useParams();
-  console.log('params: ', params);
   const router = useRouter();
 
   return (

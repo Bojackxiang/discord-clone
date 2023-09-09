@@ -28,7 +28,6 @@ const FileUploader: React.FC<FileUploaderProps> = ({
           className="bg-rose-500 text-white p-1 rounded-full absolute top-0 right-0 shadow-sm"
           type="button"
           onClick={() => {
-            console.log('clicked')
             onChange("")
           }}
         >
