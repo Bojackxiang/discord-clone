@@ -53,7 +53,7 @@ const CreateServerModal: React.FC<CreateServerModalProps> = () => {
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
-      await axios.post("api/servers", values)
+      await axios.post("/api/servers", values)
       form.reset();
       router.refresh();
       window.location.reload();
