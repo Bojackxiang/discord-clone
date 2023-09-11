@@ -26,6 +26,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import FileUploader from "@/components/fileUploader/FileUploader";
 import { useRouter } from "next/navigation";
+import { useModal } from "@/hooks/use-modal";
 
 const formSchema = z.object({
   name: z.string().min(1, { message: "Server name is required" }),
@@ -35,10 +36,8 @@ const formSchema = z.object({
 interface InitialModalProps {}
 
 const InitialModal: React.FC<InitialModalProps> = () => {
-  const [isMounted, setIsMounted] = useState(false);
   const router = useRouter();
-
- 
+  const {isOpen, type} = useModal()
 
   const form = useForm({
     resolver: zodResolver(formSchema),
@@ -61,17 +60,10 @@ const InitialModal: React.FC<InitialModalProps> = () => {
     }
   };
 
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
+  const isInitialModalOpen = isOpen && type === 'CREATE_SERVER'
 
-  if (!isMounted) {
-    return null;
-  }
-
-  
   return (
-    <Dialog open>
+    <Dialog open={isInitialModalOpen}>
       <DialogContent className="bg-white text-black p-0 overflow-hidden">
         <DialogHeader className="pt-8 px-6">
           <DialogTitle className="text-2xl text-center font-bold">

@@ -12,7 +12,15 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
-import { ChevronDown, LogOut, PlusCircle, Settings, Trash, UserPlus, Users } from "lucide-react";
+import {
+  ChevronDown,
+  LogOut,
+  PlusCircle,
+  Settings,
+  Trash,
+  UserPlus,
+  Users,
+} from "lucide-react";
 
 interface ServerHeaderProps {
   server: ServerWithMembersWithProfiles;
@@ -20,7 +28,7 @@ interface ServerHeaderProps {
 }
 
 export const ServerHeader = ({ server, role }: ServerHeaderProps) => {
-  const { onOpen } = useModal();
+  const { onOpen} = useModal();
 
   const isAdmin = role === MemberRole.ADMIN;
   const isModerator = isAdmin || role === MemberRole.MODERATOR;
@@ -36,7 +44,7 @@ export const ServerHeader = ({ server, role }: ServerHeaderProps) => {
       <DropdownMenuContent className="w-56 text-xs font-medium text-black dark:text-neutral-400 space-y-[2px]">
         {isModerator && (
           <DropdownMenuItem
-            onClick={() => onOpen("invite" )}
+            onClick={() => onOpen("INVITE", {server})}
             className="text-indigo-600 dark:text-indigo-400 px-3 py-2 text-sm cursor-pointer"
           >
             Invite People
@@ -45,7 +53,7 @@ export const ServerHeader = ({ server, role }: ServerHeaderProps) => {
         )}
         {isAdmin && (
           <DropdownMenuItem
-            onClick={() => onOpen("EDIT_SERVER")}
+            onClick={() => {}}
             className="px-3 py-2 text-sm cursor-pointer"
           >
             Server Settings
@@ -54,7 +62,7 @@ export const ServerHeader = ({ server, role }: ServerHeaderProps) => {
         )}
         {isAdmin && (
           <DropdownMenuItem
-            onClick={() => onOpen("MEMBERS" )}
+            onClick={() => {}}
             className="px-3 py-2 text-sm cursor-pointer"
           >
             Manage Members
@@ -63,7 +71,7 @@ export const ServerHeader = ({ server, role }: ServerHeaderProps) => {
         )}
         {isModerator && (
           <DropdownMenuItem
-            onClick={() => onOpen("CREATE_CHANNEL")}
+            onClick={() => {}}
             className="px-3 py-2 text-sm cursor-pointer"
           >
             Create Channel
@@ -73,7 +81,7 @@ export const ServerHeader = ({ server, role }: ServerHeaderProps) => {
         {isModerator && <DropdownMenuSeparator />}
         {isAdmin && (
           <DropdownMenuItem
-            onClick={() => onOpen("DELETE_SERVER", )}
+            onClick={() => {}}
             className="text-rose-500 px-3 py-2 text-sm cursor-pointer"
           >
             Delete Server
@@ -82,7 +90,7 @@ export const ServerHeader = ({ server, role }: ServerHeaderProps) => {
         )}
         {!isAdmin && (
           <DropdownMenuItem
-            onClick={() => onOpen("LEAVE_SERVER", )}
+            onClick={() => {}}
             className="text-rose-500 px-3 py-2 text-sm cursor-pointer"
           >
             Leave Server
