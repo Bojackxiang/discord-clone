@@ -1,9 +1,6 @@
 "use client";
 
-import React from "react";
-import * as z from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
+import React, { useState } from "react";
 
 import {
   Dialog,
@@ -16,21 +13,44 @@ import { Button } from "@/components/ui/button";
 import { useModal } from "@/hooks/use-modal";
 import { Label } from "../ui/label";
 import { Check, Copy, RefreshCw } from "lucide-react";
+import { useOrigin } from "@/hooks/use-origin";
+import axios from "axios";
 
 
 interface InviteModalProps {}
 
 const InviteModal: React.FC<InviteModalProps> = () => {
-  const {isOpen, type, onClose} = useModal()
+  const {isOpen, type, onClose, data, onOpen} = useModal()
+  const origin = useOrigin();
+  const [copied, setCopied] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
 
   const isInviteModalOpen = isOpen && type === 'INVITE'
-  const isLoading = false;
-  const inviteUrl = ''; 
-  const copied = false; 
+  const inviteUrl = `${origin}/invite/${data.server?.inviteCode}`; 
   
-  const onCopy = () => {}
+  const onCopy = () => {
+    navigator.clipboard.writeText(inviteUrl)
+    setCopied(true)
 
-  const onNew = () => {}
+    setTimeout(() => {
+      setCopied(false)
+    }, 1000);
+  }
+
+  const onNew = async () => {
+    try {
+      setIsLoading(true)
+      const url = `/api/servers/${data.server?.id}/invite-code`
+      console.log('url: ', url);
+      const response = await axios.patch(url)
+      onOpen("INVITE", {server: response.data})
+    } catch (error) {
+      console.log(error)
+    } finally {
+      setIsLoading(false)
+      
+    }
+  }
 
   
   return (
@@ -49,6 +69,7 @@ const InviteModal: React.FC<InviteModalProps> = () => {
           </Label>
           <div className="flex items-center mt-2 gap-x-2">
             <Input
+              readOnly
               disabled={isLoading}
               className="bg-zinc-300/50 border-0 focus-visible:ring-0 text-black focus-visible:ring-offset-0"
               value={inviteUrl}
