@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import axios from 'axios'
+import axios from "axios";
 
 import {
   Dialog,
@@ -36,8 +36,13 @@ const formSchema = z.object({
 interface InitialModalProps {}
 
 const InitialModal: React.FC<InitialModalProps> = () => {
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
   const router = useRouter();
-  const {isOpen, type} = useModal()
 
   const form = useForm({
     resolver: zodResolver(formSchema),
@@ -51,19 +56,21 @@ const InitialModal: React.FC<InitialModalProps> = () => {
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
-      await axios.post("api/servers", values)
+      await axios.post("api/servers", values);
       form.reset();
       router.refresh();
       window.location.reload();
     } catch (error: any) {
-      throw new Error("InitialModal :: ", error.message)
+      throw new Error("InitialModal :: ", error.message);
     }
   };
 
-  const isInitialModalOpen = isOpen && type === 'CREATE_SERVER'
+  if (!isMounted) {
+    return null;
+  }
 
   return (
-    <Dialog open={isInitialModalOpen}>
+    <Dialog open>
       <DialogContent className="bg-white text-black p-0 overflow-hidden">
         <DialogHeader className="pt-8 px-6">
           <DialogTitle className="text-2xl text-center font-bold">
@@ -83,9 +90,11 @@ const InitialModal: React.FC<InitialModalProps> = () => {
                   render={({ field }) => (
                     <FormItem>
                       <FormControl>
-                        <FileUploader endpoint="serverImage" 
-                        value={field.value} 
-                        onChange={field.onChange}/>
+                        <FileUploader
+                          endpoint="serverImage"
+                          value={field.value}
+                          onChange={field.onChange}
+                        />
                       </FormControl>
                       <FormMessage />
                     </FormItem>

@@ -15,7 +15,6 @@ const ModalProviders = () => {
     return;
   }
   return <>
-    <InitialModal/>
     <InviteModal/>
     <CreateServerModal/>
   </>;
