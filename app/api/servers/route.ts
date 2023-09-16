@@ -38,8 +38,8 @@ export async function POST(
       }
     });
 
-    NextResponse.json({...createdServer});
-    return NextResponse.json({});
+    return NextResponse.json({...createdServer});
+    // return NextResponse.json({});
   } catch (error: any) {
     console.error("api/server::", error.message);
     return new NextResponse(error.message, { status: 500 });
