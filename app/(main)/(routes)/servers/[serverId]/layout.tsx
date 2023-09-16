@@ -21,17 +21,19 @@ const ServerIdLayout = async ({
   const server = await db.server.findUnique({
     where: {
       id: params.serverId,
-      members: {
-        some: {
-          profileId: profile.id
-        }
-      }
+      // members: {
+      //   some: {
+      //     profileId: profile.id
+      //   }
+      // }
     }
   });
 
-  if (!server) {
-    return redirect("/");
-  }
+  console.log("server", server);
+
+  // if (!server) {
+  //   return redirect("/");
+  // }
 
   return ( 
     <div className="h-full">

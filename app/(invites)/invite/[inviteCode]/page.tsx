@@ -1,6 +1,5 @@
-"use client";
 import React from "react";
-import { redirect, useParams, useRouter } from "next/navigation";
+import { redirect } from "next/navigation";
 import { currentProfile } from "@/lib/current-profile";
 import { redirectToSignIn } from "@clerk/nextjs";
 import { db } from "@/lib/db";
@@ -13,7 +12,6 @@ interface InviteCodeProps {
 
 const InviteCodePage = async ({ params }: InviteCodeProps) => {
   const { inviteCode } = params;
-
   const profile = await currentProfile();
 
   if (!profile) {
@@ -24,33 +22,36 @@ const InviteCodePage = async ({ params }: InviteCodeProps) => {
     return redirect("/");
   }
 
-  const existInServer = await db.server.findFirst({
+  const serverWithInvitedCode = await db.server.findFirst({
     where: {
       inviteCode: inviteCode,
-      members: {
-        some: {
-          profileId: profile.id,
-        },
-      },
     },
   });
 
-  if (existInServer) {
-    return redirect(`/servers/${existInServer.id}`);
+  if (!serverWithInvitedCode) {
+    return "No such Invited code";
   }
 
-  await db.server.update({
-    where: { inviteCode: inviteCode },
-    data: {
-      members: {
-        create: {
-          profileId: profile.id,
-        },
-      },
+  // check if user already in the server
+  const existedInServer = await db.member.findFirst({
+    where: {
+      profileId: profile.id,
+      serverId: serverWithInvitedCode.id,
     },
   });
 
-  return <div>{inviteCode}</div>;
+  if (existedInServer) {
+    return redirect(`/servers/${serverWithInvitedCode.id}`);
+  } else {
+    await db.member.create({
+      data: {
+        serverId: serverWithInvitedCode.id,
+        profileId: profile.id,
+      },
+    });
+  }
+
+  return <div>Invite page</div>;
 };
 
 export default InviteCodePage;

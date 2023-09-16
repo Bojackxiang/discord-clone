@@ -1,4 +1,5 @@
 import InitialModal from "@/components/modals/InitialModal";
+import { useModal } from "@/hooks/use-modal";
 import { db } from "@/lib/db";
 import { initProfile } from "@/lib/init-profile";
 import { RedirectToSignIn, UserButton, currentUser } from "@clerk/nextjs";
@@ -30,6 +31,8 @@ const SetupPage = async () => {
       return redirect(`/servers/${foundServer.id}`);
     }
   }
+
+
 
   return <div>
     <UserButton/>
