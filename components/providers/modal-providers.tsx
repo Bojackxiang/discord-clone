@@ -5,6 +5,7 @@ import InitialModal from "../modals/InitialModal";
 import CreateServerModal from "../modals/CreateServerModal";
 import InviteModal from "../modals/InviteModal";
 import EditServerModal from "../modals/EditServerModal";
+import MemberManageModal from "../modals/MembersManageModal";
 
 const ModalProviders = () => {
   const [isMounted, setIsMounted] = useState(false);
@@ -16,6 +17,7 @@ const ModalProviders = () => {
     return;
   }
   return <>
+    <MemberManageModal/>
     <EditServerModal/>
     <InviteModal/>
     <CreateServerModal/>

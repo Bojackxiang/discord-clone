@@ -53,7 +53,6 @@ export const ServerHeader = ({ server, role }: ServerHeaderProps) => {
         )}
         {isAdmin && (
           <DropdownMenuItem
-          // onClick={() => onOpen('EDIT_SERVER', {})}
           onClick={() => {onOpen("EDIT_SERVER", {server})}}
           className="px-3 py-2 text-sm cursor-pointer"
           >
@@ -63,7 +62,7 @@ export const ServerHeader = ({ server, role }: ServerHeaderProps) => {
         )}
         {isAdmin && (
           <DropdownMenuItem
-            onClick={() => {}}
+            onClick={() => {onOpen('MEMBER_MANAGEMENT', {server})}}
             className="px-3 py-2 text-sm cursor-pointer"
           >
             Manage Members
