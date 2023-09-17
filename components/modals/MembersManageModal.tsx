@@ -54,9 +54,21 @@ const MembersManageModal: React.FC<MembersManageModalProps> = () => {
 
   const isMembersManageModalOpen = isOpen && type === "MEMBER_MANAGEMENT";
 
+  const onKick = async (memberId: string) => {
+    try {
+      const updatedServer = await axios.delete(
+        `/api/servers/${server.id}/member/${memberId}`
+      );
+
+      router.refresh();
+      onOpen("MEMBER_MANAGEMENT", { server: updatedServer.data });
+    } catch (error: any) {
+        console.error(error)
+    }
+  }
+
   const onRoleChange = async (
     updatedRole: "GUEST" | "ADMIN" | "MODERATOR",
-    profileId: string,
     memberId: string
   ) => {
     
@@ -121,7 +133,6 @@ const MembersManageModal: React.FC<MembersManageModalProps> = () => {
                                   onClick={() =>
                                     onRoleChange(
                                       "GUEST",
-                                      member?.profileId,
                                       member.id
                                     )
                                   }
@@ -147,7 +158,6 @@ const MembersManageModal: React.FC<MembersManageModalProps> = () => {
                                   onClick={() =>
                                     onRoleChange(
                                       "MODERATOR",
-                                      member?.profileId,
                                       member.id
                                     )
                                   }
@@ -164,7 +174,7 @@ const MembersManageModal: React.FC<MembersManageModalProps> = () => {
                             </DropdownMenuPortal>
                           </DropdownMenuSub>
                           <DropdownMenuSeparator />
-                          <DropdownMenuItem>
+                          <DropdownMenuItem onClick={() => onKick(member.id)}>
                             <Gavel className="h-4 w-4 mr-2" />
                             Kick
                           </DropdownMenuItem>
