@@ -58,7 +58,7 @@ export async function PUT(
 
     return NextResponse.json(server);
   } catch (error) {
-    console.log("[MEMBERS_ID_PATCH]", error);
+    console.error("[MEMBERS_ID_PATCH]", error);
     return new NextResponse("Internal Error", { status: 500 });
   }
 }

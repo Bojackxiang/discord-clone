@@ -41,11 +41,10 @@ const InviteModal: React.FC<InviteModalProps> = () => {
     try {
       setIsLoading(true)
       const url = `/api/servers/${data.server?.id}/invite-code`
-      console.log('url: ', url);
       const response = await axios.patch(url)
       onOpen("INVITE", {server: response.data})
     } catch (error) {
-      console.log(error)
+      console.error(error)
     } finally {
       setIsLoading(false)
       
