@@ -28,7 +28,7 @@ interface ServerHeaderProps {
 }
 
 export const ServerHeader = ({ server, role }: ServerHeaderProps) => {
-  const { onOpen} = useModal();
+  const { onOpen } = useModal();
 
   const isAdmin = role === MemberRole.ADMIN;
   const isModerator = isAdmin || role === MemberRole.MODERATOR;
@@ -44,7 +44,7 @@ export const ServerHeader = ({ server, role }: ServerHeaderProps) => {
       <DropdownMenuContent className="w-56 text-xs font-medium text-black dark:text-neutral-400 space-y-[2px]">
         {isModerator && (
           <DropdownMenuItem
-            onClick={() => onOpen("INVITE", {server})}
+            onClick={() => onOpen("INVITE", { server })}
             className="text-indigo-600 dark:text-indigo-400 px-3 py-2 text-sm cursor-pointer"
           >
             Invite People
@@ -53,8 +53,10 @@ export const ServerHeader = ({ server, role }: ServerHeaderProps) => {
         )}
         {isAdmin && (
           <DropdownMenuItem
-          onClick={() => {onOpen("EDIT_SERVER", {server})}}
-          className="px-3 py-2 text-sm cursor-pointer"
+            onClick={() => {
+              onOpen("EDIT_SERVER", { server });
+            }}
+            className="px-3 py-2 text-sm cursor-pointer"
           >
             Server Settings
             <Settings className="h-4 w-4 ml-auto" />
@@ -62,7 +64,9 @@ export const ServerHeader = ({ server, role }: ServerHeaderProps) => {
         )}
         {isAdmin && (
           <DropdownMenuItem
-            onClick={() => {onOpen('MEMBER_MANAGEMENT', {server})}}
+            onClick={() => {
+              onOpen("MEMBER_MANAGEMENT", { server });
+            }}
             className="px-3 py-2 text-sm cursor-pointer"
           >
             Manage Members
@@ -71,7 +75,9 @@ export const ServerHeader = ({ server, role }: ServerHeaderProps) => {
         )}
         {isModerator && (
           <DropdownMenuItem
-            onClick={() => {}}
+            onClick={() => {
+              onOpen("CREATE_CHANNEL", { server });
+            }}
             className="px-3 py-2 text-sm cursor-pointer"
           >
             Create Channel
