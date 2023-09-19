@@ -50,7 +50,8 @@ interface CreateChannelModalProps {}
 
 const CreateChannelModal: React.FC<CreateChannelModalProps> = () => {
   const router = useRouter();
-  const { isOpen, onOpen, onClose, type } = useModal();
+  const { isOpen, onOpen, onClose, type, data } = useModal();
+  const { server } = data;
 
   const form = useForm({
     resolver: zodResolver(formSchema),
@@ -66,11 +67,13 @@ const CreateChannelModal: React.FC<CreateChannelModalProps> = () => {
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
-      
-      // await axios.post("/api/servers", values);
-      // form.reset();
-      // router.refresh();
-      // window.location.reload();
+      // send a request to the api with axios to create channel
+      await axios.post(`/api/servers/${server?.id}/channel`, {
+        ...values,
+      });
+      form.reset();
+      router.refresh();
+      onClose();
     } catch (error: any) {
       throw new Error("CreateChannelModal :: ", error.message);
     }
