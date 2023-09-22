@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useEffect } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { Search } from "lucide-react";
 import { CommandDialog, CommandGroup, CommandItem } from "../ui/command";
@@ -20,7 +20,38 @@ export const ServerSearch = ({ data }: ServerSearchProps) => {
 
   const [open, setOpen] = React.useState(false);
 
-  const onClick = (input: { id: string; type: "channel" | "member" }) => {};
+  useEffect(() => {
+    const down = (e: KeyboardEvent) => {
+      if (e.key === "k" && e.metaKey && !open) {
+        console.log("open");
+        e.preventDefault();
+        setOpen(true);
+      }
+    };
+
+    document.addEventListener("keydown", down);
+    return () => {
+      document.removeEventListener("keydown", down);
+    };
+  }, []);
+
+  const onClick = ({
+    id,
+    type,
+  }: {
+    id: string;
+    type: "channel" | "member";
+  }) => {
+    setOpen(false);
+
+    if (type === "channel") {
+      router.push(`/servers/${params.serverId}/conversations/${id}`);
+    }
+
+    if (type === "member") {
+      router.push(`/servers/${params.serverId}/channels/${id}`);
+    }
+  };
 
   return (
     <>
