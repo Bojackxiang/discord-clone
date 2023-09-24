@@ -53,7 +53,6 @@ const CreateChannelModal: React.FC<CreateChannelModalProps> = () => {
   const { isOpen, onOpen, onClose, type, data, channelType } = useModal();
   const { server } = data;
 
-  console.log(channelType);
 
   const form = useForm({
     resolver: zodResolver(formSchema),
@@ -75,7 +74,6 @@ const CreateChannelModal: React.FC<CreateChannelModalProps> = () => {
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
-      // send a request to the api with axios to create channel
       await axios.post(`/api/servers/${server?.id}/channel`, {
         ...values,
       });

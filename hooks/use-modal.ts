@@ -14,6 +14,7 @@ export type modalType =
 interface UserModalDataProp {
   server?: Server;
   channel?: Channel;
+  channelType?: ChannelType;
 }
 
 interface ModalProps {
@@ -33,13 +34,15 @@ export const useModal = create<ModalProps>((set) => ({
   type: null,
   data: {},
   isOpen: false,
-  onOpen: (type, data = {}, channelType = "TEXT") =>
-    set({
+  onOpen: (type, data = {}, channelType = "TEXT") => {
+    console.log(type)
+    return set({
       type,
       isOpen: true,
       data,
       channelType,
-    }),
+    });
+  },
   onClose: () =>
     set({
       data: {},

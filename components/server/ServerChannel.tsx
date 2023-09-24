@@ -31,12 +31,14 @@ export const ServerChannel = ({
 
   const Icon = ICON_MAP[channel.type];
 
-  const onClick = () => {
+  const onClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
     router.push(`/servers/${params?.serverId}/channels/${channel.id}`);
   };
 
   const onAction = (e: React.MouseEvent, action: modalType) => {
     e.stopPropagation();
+    console.log(action)
     onOpen(action, { channel, server });
   };
 
