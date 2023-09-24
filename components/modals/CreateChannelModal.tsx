@@ -66,7 +66,7 @@ const CreateChannelModal: React.FC<CreateChannelModalProps> = () => {
     if (channelType) {
       form.setValue("type", channelType);
     }
-  }, []);
+  }, [channelType]);
 
   const modalOpen = isOpen === true && type === "CREATE_CHANNEL";
 
