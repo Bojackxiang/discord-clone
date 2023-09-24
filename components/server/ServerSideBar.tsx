@@ -139,48 +139,128 @@ export const ServerSidebar = async ({ serverId }: ServerSidebarProps) => {
           />
         </div>
         {/* block-1-start */}
-        <Separator className="bg-zinc-200 dark:bg-zinc-700 rounded-md my-2" />
-        {!!textChannels?.length && (
-          <div className="mb-2">
-            <div className="space-y-[2px]"></div>
+        <>
+          <Separator className="bg-zinc-200 dark:bg-zinc-700 rounded-md my-2" />
+          {!!textChannels?.length && (
+            <div className="mb-2">
+              <div className="space-y-[2px]"></div>
+            </div>
+          )}
+          {!!audioChannels?.length && <div className="mb-2"></div>}
+          {!!videoChannels?.length && (
+            <div className="mb-2">
+              <div className="space-y-[2px]"></div>
+            </div>
+          )}
+          <div className="space-y-2">
+            {!!members?.length && (
+              <div className="mb-2">
+                <div className="space-y-[2px]"></div>
+              </div>
+            )}
           </div>
-        )}
-        {!!audioChannels?.length && <div className="mb-2"></div>}
-        {!!videoChannels?.length && (
-          <div className="mb-2">
-            <div className="space-y-[2px]"></div>
-          </div>
-        )}
-        {!!members?.length && (
-          <div className="mb-2">
-            <div className="space-y-[2px]"></div>
-          </div>
-        )}
-        {/* block-1-end */}
+        </>
 
-        {/* block-2-start */}
-        <Separator className="bg-zinc-200 dark:bg-zinc-700 rounded-md my-2" />
-        {!!textChannels?.length && (
-          <div className="mb-2">
-            <ServerSection
-              sectionType="channel"
-              channelType={ChannelType.TEXT}
-              role={role}
-              label="text channels"
-            />
-            {textChannels.map((channel) => {
-              return (
-                <ServerChannel
-                  key={channel.id}
-                  channel={channel}
-                  server={server}
-                  role={role}
-                />
-              );
-            })}
-          </div>
-        )}
-        {/* block-2-end */}
+        {/* block-2-start: text channel*/}
+        <>
+          <Separator className="bg-zinc-200 dark:bg-zinc-700 rounded-md my-2" />
+          {!!textChannels?.length && (
+            <div className="mb-2">
+              <ServerSection
+                sectionType="channel"
+                channelType={ChannelType.TEXT}
+                role={role}
+                label="text channels"
+              />
+              <div className="space-y-2">
+                {textChannels.map((channel) => {
+                  return (
+                    <ServerChannel
+                      key={channel.id}
+                      channel={channel}
+                      server={server}
+                      role={role}
+                    />
+                  );
+                })}
+              </div>
+            </div>
+          )}
+        </>
+
+        {/* block-3-start: audio channel */}
+        <>
+          <Separator className="bg-zinc-200 dark:bg-zinc-700 rounded-md my-2" />
+          {!!audioChannels?.length && (
+            <div className="mb-2">
+              <ServerSection
+                sectionType="channel"
+                channelType={ChannelType.AUDIO}
+                role={role}
+                label="Audio channels"
+              />
+              <div className="space-y-2">
+                {audioChannels.map((channel) => {
+                  return (
+                    <ServerChannel
+                      key={channel.id}
+                      channel={channel}
+                      server={server}
+                      role={role}
+                    />
+                  );
+                })}
+              </div>
+            </div>
+          )}
+        </>
+
+        {/* block-4-start: video channel */}
+        <>
+          <Separator className="bg-zinc-200 dark:bg-zinc-700 rounded-md my-2" />
+          {!!videoChannels?.length && (
+            <div className="mb-2">
+              <ServerSection
+                sectionType="channel"
+                channelType={ChannelType.VIDEO}
+                role={role}
+                label="Video channels"
+              />
+              <div className="space-y-2">
+                {videoChannels.map((channel) => {
+                  return (
+                    <ServerChannel
+                      key={channel.id}
+                      channel={channel}
+                      server={server}
+                      role={role}
+                    />
+                  );
+                })}
+              </div>
+            </div>
+          )}
+        </>
+
+        {/* block-5-start: members */}
+        <>
+          <Separator className="bg-zinc-200 dark:bg-zinc-700 rounded-md my-2" />
+          {!!members?.length && (
+            <div className="mb-2">
+              <ServerSection
+                sectionType="channel"
+                channelType={ChannelType.TEXT}
+                role={role}
+                label="members"
+              />
+              <div className="space-y-2">
+                {members.map((member) => {
+                  return <ServerMember server={server} member={member} key={member.id}/>;
+                })}
+              </div>
+            </div>
+          )}
+        </>
       </ScrollArea>
     </div>
   );

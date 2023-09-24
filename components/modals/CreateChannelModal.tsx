@@ -50,16 +50,24 @@ interface CreateChannelModalProps {}
 
 const CreateChannelModal: React.FC<CreateChannelModalProps> = () => {
   const router = useRouter();
-  const { isOpen, onOpen, onClose, type, data } = useModal();
+  const { isOpen, onOpen, onClose, type, data, channelType } = useModal();
   const { server } = data;
+
+  console.log(channelType);
 
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
       name: "",
-      type: ChannelType.TEXT,
+      type: channelType || ChannelType.TEXT,
     },
   });
+
+  useEffect(() => {
+    if (channelType) {
+      form.setValue("type", channelType);
+    }
+  }, []);
 
   const modalOpen = isOpen === true && type === "CREATE_CHANNEL";
 

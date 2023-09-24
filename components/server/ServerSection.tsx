@@ -20,7 +20,7 @@ export const ServerSection = (props: ServerSectionProps) => {
   const { onOpen } = useModal();
 
   const onChannelModalOpen = () => {
-    onOpen("CREATE_CHANNEL", { server });
+    onOpen("CREATE_CHANNEL", { server }, channelType );
   };
 
   const onMEMBERModalOpen = () => {
@@ -46,7 +46,7 @@ export const ServerSection = (props: ServerSectionProps) => {
 
       {/* guest-channel-2*/}
       {role !== MemberRole.ADMIN && sectionType === "member" && (
-        <ActionTooltip label="Create channel" side="top">
+        <ActionTooltip label="Manage Members" side="top">
           <button
             className="text-zinc-500 hover:text-zinc-600 dark:text-zinc-400 dark:hover:text-zinc-300 transition"
             onClick={onMEMBERModalOpen}

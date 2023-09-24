@@ -1,4 +1,4 @@
-import { Channel, Server } from "@prisma/client";
+import { Channel, ChannelType, Server } from "@prisma/client";
 import { create } from "zustand";
 
 export type modalType =
@@ -20,24 +20,31 @@ interface ModalProps {
   type: modalType | null;
   data: UserModalDataProp;
   isOpen: boolean;
-  onOpen: (type: modalType, data?: UserModalDataProp) => void;
+  onOpen: (
+    type: modalType,
+    data?: UserModalDataProp,
+    channelType?: ChannelType
+  ) => void;
   onClose: () => void;
+  channelType?: ChannelType;
 }
 
 export const useModal = create<ModalProps>((set) => ({
   type: null,
   data: {},
   isOpen: false,
-  onOpen: (type, data = {}) =>
+  onOpen: (type, data = {}, channelType = "TEXT") =>
     set({
       type,
       isOpen: true,
       data,
+      channelType,
     }),
   onClose: () =>
     set({
       data: {},
       type: null,
       isOpen: false,
+      channelType: "TEXT",
     }),
 }));
