@@ -44,7 +44,7 @@ const FileUploader: React.FC<FileUploaderProps> = ({
         onChange(res?.[0].url);
       }}
       onUploadError={(error: Error) => {
-        console.log("FileUpload ::", error.message);
+        console.debug("FileUpload ::", error.message);
       }}
     />
   );

@@ -23,7 +23,6 @@ export const ServerSearch = ({ data }: ServerSearchProps) => {
   useEffect(() => {
     const down = (e: KeyboardEvent) => {
       if (e.key === "k" && e.metaKey && !open) {
-        console.log("open");
         e.preventDefault();
         setOpen(true);
       }

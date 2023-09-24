@@ -35,7 +35,6 @@ export const useModal = create<ModalProps>((set) => ({
   data: {},
   isOpen: false,
   onOpen: (type, data = {}, channelType = "TEXT") => {
-    console.log(type)
     return set({
       type,
       isOpen: true,

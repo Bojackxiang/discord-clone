@@ -17,8 +17,6 @@ export async function POST(
     const profile = await currentProfile();
     const payload = await req.json();
 
-    console.log(serverId, payload);
-
     if (!profile) {
       return new Response("Unauthorized", { status: 401 });
     }

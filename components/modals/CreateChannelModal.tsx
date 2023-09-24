@@ -53,7 +53,6 @@ const CreateChannelModal: React.FC<CreateChannelModalProps> = () => {
   const { isOpen, onOpen, onClose, type, data, channelType } = useModal();
   const { server } = data;
 
-
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {

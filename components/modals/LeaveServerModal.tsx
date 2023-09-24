@@ -39,7 +39,7 @@ const LeaveServerModal: React.FC<LeaveServerModalProps> = () => {
       router.refresh();
       router.push("/");
     } catch (error) {
-      console.log(error);
+      console.error(error);
     } finally {
       setIsLoading(false);
     }

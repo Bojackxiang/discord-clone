@@ -35,8 +35,7 @@ const DeleteChannelModal: React.FC<DeleteChannelModalProps> = () => {
 
   const onDeleteChannelClicked = async () => {
     try {
-      console.log("object");
-      // setIsLoading(true);
+      setIsLoading(true);
 
       const url = qs.stringifyUrl({
         url: `/api/channels/${channel?.id}`,
@@ -51,7 +50,7 @@ const DeleteChannelModal: React.FC<DeleteChannelModalProps> = () => {
       router.refresh();
       router.push(`/servers/${server.data.id}`);
     } catch (error) {
-      console.log(error);
+      console.error(error);
     } finally {
       setIsLoading(false);
     }
