@@ -1,15 +1,24 @@
-import { Server } from "@prisma/client";
+import { Channel, Server } from "@prisma/client";
 import { create } from "zustand";
 
-export type modalType = "CREATE_SERVER" | 'INVITE' | 'EDIT_SERVER' | 'MEMBER_MANAGEMENT' | 'CREATE_CHANNEL' | 'LEAVE_MODAL';
+export type modalType =
+  | "CREATE_SERVER"
+  | "INVITE"
+  | "EDIT_SERVER"
+  | "MEMBER_MANAGEMENT"
+  | "CREATE_CHANNEL"
+  | "EDIT_CHANNEL"
+  | "DELETE_CHANNEL"
+  | "LEAVE_MODAL";
 
 interface UserModalDataProp {
-  server?: Server
+  server?: Server;
+  channel?: Channel;
 }
 
 interface ModalProps {
   type: modalType | null;
-  data: UserModalDataProp
+  data: UserModalDataProp;
   isOpen: boolean;
   onOpen: (type: modalType, data?: UserModalDataProp) => void;
   onClose: () => void;
@@ -17,9 +26,9 @@ interface ModalProps {
 
 export const useModal = create<ModalProps>((set) => ({
   type: null,
-  data: {}, 
+  data: {},
   isOpen: false,
-  onOpen: (type, data) =>
+  onOpen: (type, data = {}) =>
     set({
       type,
       isOpen: true,
@@ -27,7 +36,7 @@ export const useModal = create<ModalProps>((set) => ({
     }),
   onClose: () =>
     set({
-      data: {}, 
+      data: {},
       type: null,
       isOpen: false,
     }),
