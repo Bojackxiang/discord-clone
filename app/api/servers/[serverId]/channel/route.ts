@@ -43,7 +43,7 @@ export async function POST(
       return new Response("Unauthorized", { status: 401 });
     }
 
-    // update the channel with the server id 
+    // update the channel with the server id
     const server = await db.server.update({
       where: {
         id: serverId,
@@ -51,10 +51,10 @@ export async function POST(
           some: {
             profileId: profile.id,
             role: {
-              in: [MemberRole.ADMIN, MemberRole.MODERATOR]
-            }
-          }
-        }
+              in: [MemberRole.ADMIN, MemberRole.MODERATOR],
+            },
+          },
+        },
       },
       data: {
         channels: {
@@ -62,13 +62,74 @@ export async function POST(
             profileId: profile.id,
             name: payload.name,
             type: payload.type,
-          }
-        }
-      }
+          },
+        },
+      },
     });
 
-
     return NextResponse.json(server, { status: 201 });
+  } catch (error) {
+    console.error(POSTPathAlias, error);
+  }
+}
+
+export async function PUT(
+  req: Request,
+  { params }: { params: { serverId: string } }
+) {
+  try {
+    const { serverId } = params;
+    const profile = await currentProfile();
+    const { searchParams } = new URL(req.url);
+    const channelId = searchParams.get("channelId");
+    const payload = await req.json();
+
+    // check serverId
+    if (!serverId) {
+      return new NextResponse("NOT AUTHENTICATED", { status: 401 });
+    }
+
+    // check serverId
+    if (!profile) {
+      return new NextResponse("NOT AUTHENTICATED", { status: 401 });
+    }
+
+    // check serverId
+    if (!channelId) {
+      return new NextResponse("Channel Id is required", { status: 401 });
+    }
+
+    const server = await db.server.update({
+      where: {
+        id: serverId,
+        members: {
+          some: {
+            profileId: profile.id,
+            role: {
+              in: [MemberRole.ADMIN, MemberRole.MODERATOR],
+            },
+          },
+        },
+      },
+      data: {
+        channels: {
+          update: {
+            where: {
+              id: channelId,
+              NOT: {
+                name: "general",
+              },
+            },
+            data: {
+              name: payload.name, 
+              type: payload.type, 
+            },
+          },
+        },
+      },
+    });
+
+    return NextResponse.json({ status: 201 });
   } catch (error) {
     console.error(POSTPathAlias, error);
   }

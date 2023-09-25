@@ -9,7 +9,8 @@ export type modalType =
   | "CREATE_CHANNEL"
   | "EDIT_CHANNEL"
   | "DELETE_CHANNEL"
-  | "LEAVE_MODAL";
+  | "LEAVE_MODAL"
+  | "EDIT_CHANNEL";
 
 interface UserModalDataProp {
   server?: Server;
