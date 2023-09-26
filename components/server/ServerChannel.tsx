@@ -32,7 +32,6 @@ export const ServerChannel = ({
   const Icon = ICON_MAP[channel.type];
 
   const onClick = (e: React.MouseEvent) => {
-    e.stopPropagation();
     router.push(`/servers/${params?.serverId}/channels/${channel.id}`);
   };
 
@@ -44,7 +43,7 @@ export const ServerChannel = ({
   return (
     <React.Fragment>
       <button
-        onClick={onClick}
+        onClick={onClick} 
         className={cn(
           "group px-2 py-2 rounded-md flex items-center gap-x-2 w-full hover:bg-zinc-700/10 dark:hover:bg-zinc-700/50 transition mb-1",
           params?.channelId === channel.id && "bg-zinc-700/20 dark:bg-zinc-700"

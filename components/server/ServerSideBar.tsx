@@ -236,7 +236,13 @@ export const ServerSidebar = async ({ serverId }: ServerSidebarProps) => {
               />
               <div className="space-y-2">
                 {members.map((member) => {
-                  return <ServerMember server={server} member={member} key={member.id}/>;
+                  return (
+                    <ServerMember
+                      server={server}
+                      member={member}
+                      key={member.id}
+                    />
+                  );
                 })}
               </div>
             </div>
