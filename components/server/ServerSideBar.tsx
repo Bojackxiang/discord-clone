@@ -35,6 +35,7 @@ export const ServerSidebar = async ({ serverId }: ServerSidebarProps) => {
   const profile = await currentProfile();
 
   if (!profile) {
+    console.debug('!!!Redirected!!!')
     return redirect("/");
   }
 

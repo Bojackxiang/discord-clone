@@ -39,7 +39,7 @@ const ServerIdPage = async ({ params }: ServerIdProps) => {
     }
   });
 
-  const generalChannel = server?.channels[0];
+  const generalChannel = server?.channels[0];``
   console.log('generalChannel: ', generalChannel);
 
   if(generalChannel?.name !== 'general'){
@@ -50,7 +50,6 @@ const ServerIdPage = async ({ params }: ServerIdProps) => {
   console.log('redirectUrl: ', redirectUrl);
 
   return redirect(redirectUrl);
-
 };
 
 export default ServerIdPage;
