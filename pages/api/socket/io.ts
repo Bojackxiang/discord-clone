@@ -23,6 +23,6 @@ const ioHandler = (req: NextApiRequest, res: NextApiResponseServerIO) => {
   }
 
   res.end();
-};
+}
 
 export default ioHandler;
