@@ -10,12 +10,15 @@ export type modalType =
   | "EDIT_CHANNEL"
   | "DELETE_CHANNEL"
   | "LEAVE_MODAL"
-  | "EDIT_CHANNEL";
+  | "EDIT_CHANNEL"
+  | "FILE_UPLOAD";
 
 interface UserModalDataProp {
   server?: Server;
   channel?: Channel;
   channelType?: ChannelType;
+  apiUrl?: string; 
+  query?: Record<string, any>
 }
 
 interface ModalProps {

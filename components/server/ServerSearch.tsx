@@ -44,11 +44,11 @@ export const ServerSearch = ({ data }: ServerSearchProps) => {
     setOpen(false);
 
     if (type === "channel") {
-      router.push(`/servers/${params.serverId}/conversations/${id}`);
+      // router.push(`/servers/${params.server.id}/conversations/${id}`);
     }
 
     if (type === "member") {
-      router.push(`/servers/${params.serverId}/channels/${id}`);
+      // router.push(`/servers/${params.serverId}/channels/${id}`);
     }
   };
 
