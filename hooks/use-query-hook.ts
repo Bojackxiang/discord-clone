@@ -27,12 +27,11 @@ export const useQueryChat = (props: ChatQueryProps) => {
       { skipNull: true }
     );
 
-    console.log("::fetchMessages::", fetchMessages);
-
     const res = await fetch(url);
     return res.json();
   };
 
+  console.log(props.queryKey)
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, status } =
     useInfiniteQuery({
       queryKey: [props.queryKey],
