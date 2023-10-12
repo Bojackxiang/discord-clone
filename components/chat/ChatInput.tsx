@@ -58,7 +58,6 @@ const ChatInput = (params: ChatInputProps) => {
           control={form.control}
           name="content"
           render={({ field }) => {
-            console.log(field);
             return (
               <div>
                 <FormItem>

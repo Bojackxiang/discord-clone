@@ -31,7 +31,6 @@ export const useQueryChat = (props: ChatQueryProps) => {
     return res.json();
   };
 
-  console.log(props.queryKey)
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, status } =
     useInfiniteQuery({
       queryKey: [props.queryKey],

@@ -11,7 +11,8 @@ export type modalType =
   | "DELETE_CHANNEL"
   | "LEAVE_MODAL"
   | "EDIT_CHANNEL"
-  | "FILE_UPLOAD";
+  | "FILE_UPLOAD"
+  | "DELETE_MESSAGE";
 
 interface UserModalDataProp {
   server?: Server;

@@ -6,6 +6,11 @@ import { Member, Message, Profile } from "@prisma/client";
 import ChatWelcome from "./ChatWelcome";
 import { useQueryChat } from "@/hooks/use-query-hook";
 import { Loader2 } from "lucide-react";
+import ChatItem from "./ChatItem";
+import { format } from "date-fns";
+import { useChatSocket } from "@/hooks/use-chat-socket";
+
+const DATE_FORMAT = "d MMM yyyy, HH:mm";
 
 type MessageWithMemberAndProfile = Message & {
   member: Member & {
@@ -15,11 +20,16 @@ type MessageWithMemberAndProfile = Message & {
 
 interface ChatMessagesProps {
   name: string | null | undefined;
-  member: Member | null | undefined;
+  member:
+    | (Member & {
+        profile: Profile;
+      })
+    | null
+    | undefined;
   chatId: string | undefined;
   apiUrl: string;
-  socketUrl: string;
-  socketQuery: Record<string, string | undefined>;
+  socketUrl: string | undefined;
+  socketQuery: Record<string, string>;
   paramKey: "channelId" | "conversationId";
   paramValue: string | undefined;
   type: "channel" | "conversation";
@@ -27,7 +37,10 @@ interface ChatMessagesProps {
 
 const ChatMessages = (props: ChatMessagesProps) => {
   const queryKey = `chat:${props.chatId}`;
+  const addKey = `chat:${props.chatId}:messages`;
+  const updateKey = `chat:${props.chatId}:messages:update`;
 
+  
   const { data, status, fetchNextPage, hasNextPage, isFetchingNextPage } =
     useQueryChat({
       queryKey,
@@ -35,6 +48,8 @@ const ChatMessages = (props: ChatMessagesProps) => {
       paramKey: props.paramKey,
       paramValue: props.paramValue,
     });
+    console.log(addKey)
+    useChatSocket({queryKey, addKey, updateKey});
 
   if (status === "loading") {
     return (
@@ -66,7 +81,27 @@ const ChatMessages = (props: ChatMessagesProps) => {
           return (
             <Fragment key={i}>
               {group.items.map((message: MessageWithMemberAndProfile) => {
-                return <div key={message.id}>{message.content}</div>;
+                return (
+                  <div key={message.id}>
+                    <ChatItem
+                      key={message.id}
+                      id={message.id}
+                      member={message.member}
+                      currentMember={props.member}
+                      content={message.content}
+                      fileUrl={message.fileUrl}
+                      deleted={message.deleted}
+                      timestamp={format(
+                        new Date(message.createdAt),
+                        DATE_FORMAT
+                      )}
+                      isUpdated={message.updatedAt !== message.createdAt}
+                      
+                      socketUrl={props.socketUrl}
+                      socketQuery={props.socketQuery}
+                    />
+                  </div>
+                );
               })}
             </Fragment>
           );

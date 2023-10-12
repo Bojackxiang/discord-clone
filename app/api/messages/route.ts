@@ -113,16 +113,13 @@ export async function POST(
 }
 
 // update request
-export async function PATCH(
+export async function PUT(
   req: Request,
   { params }: { params: { paramName: string } }
 ) {
   try {
-    const { userId } = auth();
-
-    if (!userId) {
-      return new NextResponse("UnAuthenticated", { status: 401 });
-    }
+    console.log('hitting here...')
+    
     return NextResponse.json({});
   } catch (error) {
     console.error(patchPathAlias, error);
