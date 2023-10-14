@@ -53,6 +53,7 @@ export const useChatSocket = (props: ChatSocketProps) => {
     });
 
     socket.on(addKey, (message: MessageWithMemberWithProfile) => {
+      console.log("adding message triggered");
       queryClient.setQueryData([queryKey], (oldData: any) => {
         // check if valid old data
         if (!oldData || !oldData.pages || oldData.pages.length === 0) {

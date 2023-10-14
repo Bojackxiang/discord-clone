@@ -1,11 +1,11 @@
 "use client";
 
-import React, { Fragment } from "react";
+import React, { ElementRef, Fragment, useRef, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { Member, Message, Profile } from "@prisma/client";
 import ChatWelcome from "./ChatWelcome";
 import { useQueryChat } from "@/hooks/use-query-hook";
-import { Loader2 } from "lucide-react";
+import { Loader2, SplineIcon } from "lucide-react";
 import ChatItem from "./ChatItem";
 import { format } from "date-fns";
 import { useChatSocket } from "@/hooks/use-chat-socket";
@@ -40,7 +40,19 @@ const ChatMessages = (props: ChatMessagesProps) => {
   const addKey = `chat:${props.chatId}:messages`;
   const updateKey = `chat:${props.chatId}:messages:update`;
 
-  
+  const chatRef = useRef<ElementRef<"div">>(null);
+  const bottomRef = useRef<ElementRef<"div">>(null);
+
+  const onLoadMoreClick = () => {
+    fetchNextPage();
+  };
+
+  useChatSocket({
+    addKey: addKey,
+    updateKey,
+    queryKey: queryKey,
+  });
+
   const { data, status, fetchNextPage, hasNextPage, isFetchingNextPage } =
     useQueryChat({
       queryKey,
@@ -48,8 +60,6 @@ const ChatMessages = (props: ChatMessagesProps) => {
       paramKey: props.paramKey,
       paramValue: props.paramValue,
     });
-    console.log(addKey)
-    useChatSocket({queryKey, addKey, updateKey});
 
   if (status === "loading") {
     return (
@@ -73,9 +83,23 @@ const ChatMessages = (props: ChatMessagesProps) => {
   }
 
   return (
-    <div className="flex flex-1 flex-col py-4 overflow-y-auto">
+    <div className="flex flex-1 flex-col py-4 overflow-y-auto" ref={chatRef}>
       <div className="flex-1" />
-      <ChatWelcome type={props.type} name={props.name} />
+      {!hasNextPage && <ChatWelcome type={props.type} name={props.name} />}
+      {hasNextPage && (
+        <div
+          className="flex justify-center items-center text-zinc-400 cursor-pointer my-4 text-sm"
+          onClick={onLoadMoreClick}
+        >
+          Loading more messages...
+        </div>
+      )}
+      {isFetchingNextPage && (
+        <div className="flex justify-center items-center text-zinc-400 cursor-pointer my-4 text-sm animate-spin">
+          <Loader2 className="h-7 w-7 text-zinc-500 animate-spin my-4" />
+        </div>
+      )}
+
       <div className="flex flex-col-reverse mt-auto">
         {data?.pages.map((group, i) => {
           return (
@@ -96,7 +120,6 @@ const ChatMessages = (props: ChatMessagesProps) => {
                         DATE_FORMAT
                       )}
                       isUpdated={message.updatedAt !== message.createdAt}
-                      
                       socketUrl={props.socketUrl}
                       socketQuery={props.socketQuery}
                     />
@@ -107,6 +130,7 @@ const ChatMessages = (props: ChatMessagesProps) => {
           );
         })}
       </div>
+      <div ref={bottomRef} />
     </div>
   );
 };
